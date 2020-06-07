@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<head>
+	<link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-2.12.1.min.css" />
+</head>
+<body>
+	<section class="p-strip--light is-bordered">
+		<div class="row">
+			<h1>Roasting Log</h1>
+		</div>
+		<div class="row">
+			<div class="col-6">
+				<h2>Set timer</h2>
+				<label for="time">Interval (sec.)</label>
+				<input type="text" id="time"/>
+				<button id="startRoast">Start roast</button>
+				<button id="stopRoast">Finish roast</button>
+				<button id="resetRoast">Reset</button>
+				<button id="exportToCSV">Export to CSV</button>
+			</div>
+			<div class="col-6">
+				<h2><div id="timer">00:00</div></h2>
+				<label for="temperature">Temperature or notes (press Enter)</label>
+				<input type="text" id="temperature"/>
+				<button id="yellowing">Yellowing</button>
+				<button id="browning">Browning</button>
+				<button id="firstCrack">First crack</button>
+				<button id="secondCrack">Second crack</button>
+			</div>
+		</div>
+	</section>
+
+	<section class="p-strip">
+		<div class="row">
+			<div class="col-12">
+				<table id="roastingLogs">
+					<thead>
+						<tr>
+							<th>Time</th>
+							<th>Temperature</th>
+							<th>Note</th>
+						</tr>
+					</thead>
+					<tbody id="roastingRows">
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+
+	<script type="text/javascript">
+	 var clicked = false;
+	 var sec = 0;
+     var notes = [["time", "temperature", "note"]]
+
+     function resetState() {
+         resetClock();
+         resetTable();
+         document.getElementById("startRoast").disabled = false;
+         document.getElementById("stopRoast").innerText= "End Roast";
+         document.getElementById("stopRoast").disabled = true;
+         document.getElementById("resetRoast").disabled = true;
+         document.getElementById("yellowing").disabled = true;
+         document.getElementById("browning").disabled = true;
+         document.getElementById("firstCrack").disabled = true;
+         document.getElementById("secondCrack").disabled = true;
+         document.getElementById("temperature").disabled = true;
+         document.getElementById("exportToCSV").disabled = true;
+     }
+
+     // I run this function to avoid broswer button caching
+     resetState();
+
+     document.getElementById("startRoast").onclick = function() {
+         startClock();
+         document.getElementById("startRoast").disabled = true;
+         document.getElementById("stopRoast").disabled = false;
+         document.getElementById("resetRoast").disabled = true;
+
+         document.getElementById("yellowing").disabled = false;
+         document.getElementById("browning").disabled = false;
+         document.getElementById("firstCrack").disabled = false;
+         document.getElementById("secondCrack").disabled = false;
+         document.getElementById("temperature").disabled = false;
+     };
+     document.getElementById("stopRoast").onclick = function() {
+         if (clicked) {
+             stopClock();
+             document.getElementById("stopRoast").innerText= "Resume Roast";
+             document.getElementById("startRoast").disabled = true;
+             document.getElementById("stopRoast").disabled = false;
+             document.getElementById("resetRoast").disabled = false;
+             document.getElementById("temperature").disabled = true;
+             document.getElementById("exportToCSV").disabled = false;
+         } else {
+             startClock();
+             document.getElementById("stopRoast").innerText= "End Roast";
+             document.getElementById("resetRoast").disabled = true;
+             document.getElementById("temperature").disabled = false;
+         }
+     };
+     document.getElementById("resetRoast").onclick = function() {
+         var reset = confirm("Are you sure you want to reset the timer?");
+         if (reset) {
+             resetState();
+         }
+     };
+     document.getElementById("yellowing").onclick = function() {
+         addRow('', 'Yellowing');
+         document.getElementById("yellowing").disabled = true;
+     };
+     document.getElementById("browning").onclick = function() {
+         addRow('', 'Browning');
+         document.getElementById("browning").disabled = true;
+     };
+     document.getElementById("firstCrack").onclick = function() {
+         addRow('', 'First Crack');
+         document.getElementById("firstCrack").disabled = true;
+     };
+     document.getElementById("secondCrack").onclick = function() {
+         addRow('', 'Second Crack');
+         document.getElementById("secondCrack").disabled = true;
+     };
+     document.getElementById("exportToCSV").onclick = function() {
+         let csvContent = "data:text/csv;charset=utf-8,"
+                        + notes.map(e => e.join(",")).join("\n");
+
+         var encodedUri = encodeURI(csvContent);
+         var link = document.createElement("a");
+         link.setAttribute("href", encodedUri);
+         link.setAttribute("download", "roast-logs.csv");
+         document.body.appendChild(link); // Required for FF
+
+         link.click();
+     };
+
+     function secondsToHuman(time) {
+         var minutes = Math.floor(time / 60);
+         var seconds = time - minutes * 60;
+
+         function str_pad_left(string,pad,length) {
+             return (new Array(length+1).join(pad) + string).slice(-length);
+         }
+
+         return str_pad_left(minutes, '0', 2) + ':' + str_pad_left(seconds, '0', 2);
+     }
+
+     function updateTimer(currentTimer) {
+		 document.getElementById("timer").innerHTML = secondsToHuman(currentTimer);
+     }
+
+	 function startClock() {
+		 if (clicked === false) {
+			 clock = setInterval("incWatch()", 1000);
+			 clicked = true;
+		 }
+	 }
+
+	 function incWatch() {
+		 sec++;
+         updateTimer(sec);
+	 }
+
+	 function stopClock() {
+		 window.clearInterval(clock);
+		 clicked = false;
+         addRow("", "End Roast");
+	 }
+
+	 function resetClock() {
+		 if (!clicked) {
+             sec = 0;
+             updateTimer(sec);
+		 }
+	 }
+
+     // temp button
+     var input = document.getElementById("temperature");
+     input.addEventListener("keyup", function(event) {
+         if (event.keyCode === 13) {
+             event.preventDefault();
+             if (!input.value) { return; }
+             if (!isNaN(input.value)) {
+                 addRow(input.value);
+             } else {
+                 addRow("", input.value);
+             }
+
+             input.value =  "";
+         }
+     });
+
+     function addRow(temperature, note) {
+         var table = document.getElementById("roastingRows");
+         var row = table.insertRow(-1);
+
+         var timeCell = row.insertCell(0);
+         var temperatureCell = row.insertCell(1);
+         var noteCell = row.insertCell(2);
+
+         humanTime = secondsToHuman(sec)
+         timeCell.innerHTML = humanTime;
+         if (temperature) {
+             temperatureCell.innerHTML = temperature;
+         }
+         if (note) {
+             noteCell.innerHTML = note;
+         }
+
+         notes.push([humanTime, temperature, note]);
+     }
+
+     function resetTable() {
+         var new_tbody = document.createElement('tbody');
+         new_tbody.id = 'roastingRows';
+
+         var old_tbody = document.getElementById('roastingRows');
+         old_tbody.parentNode.replaceChild(new_tbody, old_tbody)
+     }
+	</script>
+</body>
