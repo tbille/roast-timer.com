@@ -89,13 +89,11 @@ layout: default
          document.getElementById("startRoast").disabled = true;
          document.getElementById("stopRoast").disabled = false;
          document.getElementById("resetRoast").disabled = false;
-         document.getElementById("temperature").disabled = true;
          document.getElementById("exportToCSV").disabled = false;
      } else {
          startClock();
          document.getElementById("stopRoast").innerText= "End Roast";
          document.getElementById("resetRoast").disabled = true;
-         document.getElementById("temperature").disabled = false;
          document.getElementById("exportToCSV").disabled = true;
      }
  };
@@ -200,7 +198,7 @@ layout: default
 
  function addRow(temperature, note) {
      var table = document.getElementById("roastingRows");
-     var row = table.insertRow(-1);
+     var row = table.insertRow(0);
 
      var timeCell = row.insertCell(0);
      var temperatureCell = row.insertCell(1);
