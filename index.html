@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-	<link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-2.12.1.min.css" />
+    <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-2.12.1.min.css" />
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168683396-1"></script>
     <script>
@@ -12,49 +12,49 @@
     </script>
 </head>
 <body>
-	<section class="p-strip--light is-bordered">
-		<div class="row">
-			<h1>Roasting Log</h1>
-		</div>
-		<div class="row">
-			<div class="col-6">
-				<h2>Set timer</h2>
-				<label for="intervalTimer">Interval (sec.)</label>
-				<input type="text" id="intervalTimer"/>
-				<button id="startRoast">Start roast</button>
-				<button id="stopRoast">Finish roast</button>
-				<button id="resetRoast">Reset</button>
-				<button id="exportToCSV">Export to CSV</button>
-			</div>
-			<div class="col-6">
-				<h2><div id="timer">00:00</div></h2>
-				<label for="temperature">Temperature or notes (press Enter)</label>
-				<input type="text" id="temperature"/>
-				<button id="yellowing">Yellowing</button>
-				<button id="browning">Browning</button>
-				<button id="firstCrack">First crack</button>
-				<button id="secondCrack">Second crack</button>
-			</div>
-		</div>
-	</section>
+    <section class="p-strip--light is-bordered">
+        <div class="row">
+            <h1>Roasting Log</h1>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <h2>Set timer</h2>
+                <label for="intervalTimer">Interval (sec.)</label>
+                <input type="text" id="intervalTimer"/>
+                <button id="startRoast">Start roast</button>
+                <button id="stopRoast">Finish roast</button>
+                <button id="resetRoast">Reset</button>
+                <button id="exportToCSV">Export to CSV</button>
+            </div>
+            <div class="col-6">
+                <h2><div id="timer">00:00</div></h2>
+                <label for="temperature">Temperature or notes (press Enter)</label>
+                <input type="text" id="temperature"/>
+                <button id="yellowing">Yellowing</button>
+                <button id="browning">Browning</button>
+                <button id="firstCrack">First crack</button>
+                <button id="secondCrack">Second crack</button>
+            </div>
+        </div>
+    </section>
 
-	<section class="p-strip">
-		<div class="row">
-			<div class="col-12">
-				<table id="roastingLogs">
-					<thead>
-						<tr>
-							<th>Time</th>
-							<th>Temperature</th>
-							<th>Note</th>
-						</tr>
-					</thead>
-					<tbody id="roastingRows">
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</section>
+    <section class="p-strip">
+        <div class="row">
+            <div class="col-12">
+                <table id="roastingLogs">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Temperature</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roastingRows">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
     <footer class="p-strip--light">
         <nav class="row">
@@ -70,9 +70,9 @@
         </nav>
     </footer>
 
-	<script type="text/javascript">
-	 var clicked = false;
-	 var sec = 0;
+    <script type="text/javascript">
+     var clicked = false;
+     var sec = 0;
      var intervalValue = 0;
      var notes = [["time", "temperature", "note"]]
 
@@ -171,41 +171,41 @@
      }
 
      function updateTimer(currentTimer) {
-		 document.getElementById("timer").innerHTML = secondsToHuman(currentTimer);
+         document.getElementById("timer").innerHTML = secondsToHuman(currentTimer);
      }
 
-	 function startClock() {
-		 if (clicked === false) {
+     function startClock() {
+         if (clicked === false) {
              intervalValue = document.getElementById("intervalTimer").value;
              if (isNaN(intervalValue)) {
                  // TODO error
              }
-			 clock = setInterval("incWatch()", 1000);
-			 clicked = true;
-		 }
-	 }
+             clock = setInterval("incWatch()", 1000);
+             clicked = true;
+         }
+     }
 
-	 function incWatch() {
-		 sec++;
+     function incWatch() {
+         sec++;
          updateTimer(sec);
 
          if (sec % intervalValue === 0) {
              beep();
          }
-	 }
+     }
 
-	 function stopClock() {
-		 window.clearInterval(clock);
-		 clicked = false;
+     function stopClock() {
+         window.clearInterval(clock);
+         clicked = false;
          addRow("", "End Roast");
-	 }
+     }
 
-	 function resetClock() {
-		 if (!clicked) {
+     function resetClock() {
+         if (!clicked) {
              sec = 0;
              updateTimer(sec);
-		 }
-	 }
+         }
+     }
 
      // temp button
      var input = document.getElementById("temperature");
@@ -257,5 +257,5 @@
          var snd = new  Audio("data:audio/wav;base64,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qJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=");
          snd.play();
      }
-	</script>
+    </script>
 </body>
