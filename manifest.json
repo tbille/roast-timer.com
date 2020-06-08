@@ -1,0 +1,8 @@
+{
+  "short_name": "Roast timer",
+  "name": "Log and time your roasts",
+  "description": "Log and time your roasts",
+  "start_url": "/?source=pwa",
+  "display": "standalone",
+  "scope": "/"
+}
