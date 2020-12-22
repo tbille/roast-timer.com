@@ -3,6 +3,6 @@ email: toto@bille.dev
 description: >-
      A timer for home roasters.
 baseurl: ""
-url: "https://roast-timer.com/"
+url: "https://roast-timer.com"
 twitter_username: totostache
 github_username: tbille
