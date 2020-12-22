@@ -6,8 +6,41 @@
         <title>{{ page.title }}</title>
 
         <meta name="description" content="Timer to log your home coffee roasting.">
-        <meta name="keywords" content="Roasting, coffee, timer">
         <meta name="author" content="Thomas Bille">
+        <meta name="copyright" content="&copy; {{ site.time | date: '%Y' }} Toto corp">
+        <link rel="alternate" href="https://roast-timer.com" hreflang="en-GB" />
+
+        <meta property="og:title" content="{{ page.title }}">
+        <meta property="og:site_name" content="{{ page.title }}">
+        <meta property="og:type" content="website">
+        <meta property="og:description" content="Timer to log your home coffee roasting.">
+        <meta property="og:image" content="{{ site.url }}/assets/timer-logo.png">
+        <meta property="og:url" content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+        <meta property="twitter:card" content="summary">
+        <meta property="twitter:site" content="@totostache">
+        <meta property="twitter:creator" content="@totostache">
+        <meta property="twitter:url" content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+        <meta property="twitter:image" content="{{ site.url }}/assets/timer-logo.png">
+
+        <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" />
+
+        <link rel="apple-touch-icon" sizes="57x57" href="{{ site.url }}/assets/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="{{ site.url }}/assets/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="{{ site.url }}/assets/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="{{ site.url }}/assets/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="{{ site.url }}/assets/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="{{ site.url }}/assets/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="{{ site.url }}/assets/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="{{ site.url }}/assets/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ site.url }}/assets/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="{{ site.url }}/assets/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ site.url }}/assets/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="{{ site.url }}/assets/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ site.url }}/assets/favicon/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
 
         <link rel="manifest" crossorigin="use-credentials" href="/manifest.json">
         <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-2.12.1.min.css" />
