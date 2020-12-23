@@ -47,23 +47,25 @@ layout: default
             <div id="timer" class="p-heading--3">--:--</div>
         </div>
     </div>
+    <form id="addRowForm">
+        <div class="row">
+            <div class="col-2">
+                <input type="text" id="setTemperature" placeholder="Set temperature"/>
+                <input type="text" id="currentTemperature" placeholder="Current temperature"/>
+            </div>
+            <div class="col-2">
+                <button id="firstCrack">First crack</button>
+                <button id="secondCrack">Second crack</button>
+            </div>
+            <div class="col-5">
+                <input type="text" id="notes" placeholder="Add notes"/>
+            </div>
+            <div class="col-3">
+                <button type="submit" class="p-button--positive">+</button>
+            </div>
+        </div>
+    </form>
 
-    <div class="row">
-        <div class="col-2">
-            <input type="text" id="setTemperature" placeholder="Set temperature"/>
-            <input type="text" id="currentTemperature" placeholder="Current temperature"/>
-        </div>
-        <div class="col-2">
-            <button id="firstCrack">First crack</button>
-            <button id="secondCrack">Second crack</button>
-        </div>
-        <div class="col-5">
-            <input type="text" id="notes" placeholder="Add notes"/>
-        </div>
-        <div class="col-3">
-            <button id="submit" class="p-button--positive">+</button>
-        </div>  
-    </div>
     <div class="row">
         <div class="col-12">
             <table id="roastingLogs">
@@ -141,14 +143,6 @@ document.getElementById("resetRoast").onclick = function() {
         resetState();
     }
 };
-document.getElementById("firstCrack").onclick = function() {
-    firstCrackTime = timer;
-    statusButton("firstCrack", 'First Crack');
-};
-document.getElementById("secondCrack").onclick = function() {
-    statusButton("secondCrack", 'Second Crack');
-};
-
 document.getElementById("exportToCSV").onclick = function() {
     let csvContent = "data:text/csv;charset=utf-8,"
                 + notes.map(e => e.join(",")).join("\n");
@@ -161,17 +155,15 @@ document.getElementById("exportToCSV").onclick = function() {
 
     link.click();
 };
+document.getElementById("addRowForm").onsubmit = function(e) {
+    e.preventDefault();
 
-function statusButton(id, status) {
-    var temperature = document.getElementById("temperature").value;
-    if (!isNaN(temperature)) {
-        addRow(temperature, status);
-        document.getElementById("temperature").value = '';
-    } else {
-        addRow('', status);
-    }
-    document.getElementById(id).disabled = true;
-}
+    setTemperature = document.getElementById("setTemperature").value;
+    currentTemperature = document.getElementById("currentTemperature").value;
+    notes = document.getElementById("notes").value;
+
+    addRow(timer, setTemperature, currentTemperature, notes);
+};
 
 function secondsToHuman(time) {
     var minutes = Math.floor(time / 60);
@@ -186,15 +178,6 @@ function secondsToHuman(time) {
 
 function updateTimer(currentTimer) {
     document.getElementById("timer").innerHTML = secondsToHuman(currentTimer);
-}
-
-function updateDevelopement(fc, currentTime) {
-    if (fc) {
-        developement = 100 - (fc / currentTime * 100);
-        document.getElementById("developement").innerHTML = Math.round((developement + Number.EPSILON) * 100) / 100 + "%";
-    } else {
-        document.getElementById("developement").innerHTML =  "-%";
-    }
 }
 
 function startClock() {
@@ -224,7 +207,11 @@ function incWatch() {
 function stopClock() {
     window.clearInterval(clock);
     clicked = false;
-    addRow("", "End Roast");
+
+    setTemperature = document.getElementById("setTemperature").value;
+    currentTemperature = document.getElementById("currentTemperature").value;
+    notes = document.getElementById("notes").value;
+    addRow(timer, setTemperature, currentTemperature, "End Roast - " + notes);
 }
 
 function resetClock() {
@@ -236,21 +223,14 @@ function resetClock() {
     }
 }
 
-// temp button
-var input = document.getElementById("temperature");
-input.addEventListener("keyup", function(event) {
-    if (event.keyCode === 13) {
-        event.preventDefault();
-        if (!input.value) { return; }
-        if (!isNaN(input.value)) {
-            addRow(input.value);
-        } else {
-            addRow("", input.value);
-        }
-
-        input.value =  "";
+function updateDevelopement(fc, currentTime) {
+    if (fc) {
+        developement = 100 - (fc / currentTime * 100);
+        document.getElementById("developement").innerHTML = Math.round((developement + Number.EPSILON) * 100) / 100 + "%";
+    } else {
+        document.getElementById("developement").innerHTML =  "-%";
     }
-});
+}
 
 function addRow(currentTime, setTemperature, currentTemperature, note) {
     var table = document.getElementById("roastingRows");
@@ -258,8 +238,8 @@ function addRow(currentTime, setTemperature, currentTemperature, note) {
 
     var timeCell = row.insertCell(0);
     var setTemperatureCell = row.insertCell(1);
-    var currentTemperatureCell = row.insertCell(1);
-    var noteCell = row.insertCell(2);
+    var currentTemperatureCell = row.insertCell(2);
+    var noteCell = row.insertCell(3);
 
     humanTime = secondsToHuman(currentTime)
     timeCell.innerHTML = humanTime;
