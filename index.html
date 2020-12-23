@@ -40,11 +40,11 @@ layout: default
         </div>
         <div class="col-2">
             <div>First Crack</div>
-            <div id="timer" class="p-heading--3">--:--</div>
+            <div id="firstCrackTime" class="p-heading--3">--:--</div>
         </div>
         <div class="col-2">
             <div>Second Crack</div>
-            <div id="timer" class="p-heading--3">--:--</div>
+            <div id="secondCrackTime" class="p-heading--3">--:--</div>
         </div>
     </div>
     <form id="addRowForm">
@@ -54,8 +54,8 @@ layout: default
                 <input type="text" id="currentTemperature" placeholder="Current temperature"/>
             </div>
             <div class="col-2">
-                <button id="firstCrack">First crack</button>
-                <button id="secondCrack">Second crack</button>
+                <div id="firstCrack" class="p-button is-disabled has-icon"><i class="p-icon--plus"></i><span>First crack</span></div>
+                <div id="secondCrack" class="p-button is-disabled has-icon"><i class="p-icon--plus"></i><span>Second crack</span></div>
             </div>
             <div class="col-5">
                 <input type="text" id="notes" placeholder="Add notes"/>
@@ -89,7 +89,7 @@ var clicked = false;
 var timer = 0;
 var intervalValue = 0;
 var firstCrackTime, secondCrackTime;
-var notes = [["time", "setTemperature", "currentTemperature", "note"]]
+var tableTrack = [["time", "setTemperature", "currentTemperature", "note"]]
 
 function resetState() {
     resetClock();
@@ -101,10 +101,26 @@ function resetState() {
     document.getElementById("resetRoast").disabled = true;
     document.getElementById("exportToCSV").disabled = true;
 
-    document.getElementById("firstCrack").disabled = true;
-    document.getElementById("secondCrack").disabled = true;
+    document.getElementById("firstCrack").classList.add("is-disabled");
+    document.getElementById("iconFirstCrack").classList.add("p-icon--plus");
+    document.getElementById("iconFirstCrack").classList.remove("p-icon--minus");
+    document.getElementById("secondCrack").classList.add("is-disabled");
+    document.getElementById("iconSecondCrack").classList.add("p-icon--plus");
+    document.getElementById("iconSecondCrack").classList.remove("p-icon--minus");
+
+    document.getElementById("developement").innerHTML =  "-%";
+    document.getElementById("firstCrackTime").innerHTML =  "--:--";
+    document.getElementById("secondCrackTime").innerHTML =  "--:--";
+
     document.getElementById("setTemperature").disabled = true;
+    document.getElementById("setTemperature").value = "";
     document.getElementById("currentTemperature").disabled = true;
+    document.getElementById("currentTemperature").value = "";
+    document.getElementById("notes").value = "";
+
+    tableTrack = [["time", "setTemperature", "currentTemperature", "note"]]
+    firstCrackTime = null;
+    secondCrackTime = null;
 }
 
 // I run this function to avoid broswer button caching
@@ -117,8 +133,8 @@ document.getElementById("startRoast").onclick = function() {
     document.getElementById("stopRoast").disabled = false;
     document.getElementById("resetRoast").disabled = true;
 
-    document.getElementById("firstCrack").disabled = false;
-    document.getElementById("secondCrack").disabled = false;
+    document.getElementById("firstCrack").classList.remove("is-disabled");
+    document.getElementById("secondCrack").classList.remove("is-disabled");
     document.getElementById("setTemperature").disabled = false;
     document.getElementById("currentTemperature").disabled = false;
 };
@@ -145,7 +161,7 @@ document.getElementById("resetRoast").onclick = function() {
 };
 document.getElementById("exportToCSV").onclick = function() {
     let csvContent = "data:text/csv;charset=utf-8,"
-                + notes.map(e => e.join(",")).join("\n");
+                + tableTrack.map(e => e.join(",")).join("\n");
 
     var encodedUri = encodeURI(csvContent);
     var link = document.createElement("a");
@@ -158,12 +174,62 @@ document.getElementById("exportToCSV").onclick = function() {
 document.getElementById("addRowForm").onsubmit = function(e) {
     e.preventDefault();
 
-    setTemperature = document.getElementById("setTemperature").value;
-    currentTemperature = document.getElementById("currentTemperature").value;
-    notes = document.getElementById("notes").value;
+    var currentTime = timer;
+    var setTemperature = document.getElementById("setTemperature").value;
+    var currentTemperature = document.getElementById("currentTemperature").value;
+    var notes = document.getElementById("notes").value;
 
-    addRow(timer, setTemperature, currentTemperature, notes);
+    if (!document.getElementById("firstCrack").classList.contains("is-disabled")) {
+        if (document.getElementById("iconFirstCrack").classList.contains("p-icon--minus")) {
+            if (notes) {
+                notes = "First crack - " + notes;
+            } else {
+                notes = "First crack"
+            }
+            updateTimer(currentTime, "firstCrackTime");
+            firstCrackTime = currentTime;
+            document.getElementById("firstCrack").classList.add("is-disabled");
+        }
+    }
+    if (!document.getElementById("secondCrack").classList.contains("is-disabled")) {
+        if (document.getElementById("iconSecondCrack").classList.contains("p-icon--minus")) {
+            if (notes) {
+                notes = "Second crack - " + notes;
+            } else {
+                notes = "Second crack"
+            }
+            
+            updateTimer(currentTime, "secondCrackTime");
+            document.getElementById("secondCrack").classList.add("is-disabled");
+        }
+    }
+
+    addRow(currentTime, setTemperature, currentTemperature, notes);
+
+    document.getElementById("currentTemperature").value = "";
+    document.getElementById("notes").value = "";
 };
+document.getElementById("firstCrack").onclick = function() {
+    updateIcon("firstCrack");
+};
+document.getElementById("secondCrack").onclick = function() {
+    updateIcon("secondCrack");
+};
+
+function updateIcon(id) {
+    if (document.getElementById(id).classList.contains("is-disabled")) {
+        return;
+    }
+
+    var icon = document.getElementById(id).getElementsByTagName("i")[0];
+    if (icon.classList.contains("p-icon--plus")) {
+        icon.classList.remove("p-icon--plus");
+        icon.classList.add("p-icon--minus");
+    } else {
+        icon.classList.remove("p-icon--minus");
+        icon.classList.add("p-icon--plus");
+    }
+}
 
 function secondsToHuman(time) {
     var minutes = Math.floor(time / 60);
@@ -176,8 +242,8 @@ function secondsToHuman(time) {
     return str_pad_left(minutes, '0', 2) + ':' + str_pad_left(seconds, '0', 2);
 }
 
-function updateTimer(currentTimer) {
-    document.getElementById("timer").innerHTML = secondsToHuman(currentTimer);
+function updateTimer(currentTimer, timerName) {
+    document.getElementById(timerName).innerHTML = secondsToHuman(currentTimer);
 }
 
 function startClock() {
@@ -193,7 +259,7 @@ function startClock() {
 
 function incWatch() {
     timer++;
-    updateTimer(timer);
+    updateTimer(timer, "timer");
     
     if (firstCrackTime) {
         updateDevelopement(firstCrackTime, timer);
@@ -211,14 +277,20 @@ function stopClock() {
     setTemperature = document.getElementById("setTemperature").value;
     currentTemperature = document.getElementById("currentTemperature").value;
     notes = document.getElementById("notes").value;
-    addRow(timer, setTemperature, currentTemperature, "End Roast - " + notes);
+    if (notes) {
+        notes = "End Roast - " + notes
+    } else {
+        notes = "End Roast"
+    }
+
+    addRow(timer, setTemperature, currentTemperature, notes);
 }
 
 function resetClock() {
     if (!clicked) {
         timer = 0;
         firstCrackTime = null;
-        updateTimer(timer);
+        updateTimer(timer, "timer");
         updateDevelopement(firstCrackTime, timer);
     }
 }
@@ -253,7 +325,7 @@ function addRow(currentTime, setTemperature, currentTemperature, note) {
         noteCell.innerHTML = note;
     }
 
-    notes.push([humanTime, setTemperature, currentTemperature, note]);
+    tableTrack.push([humanTime, setTemperature, currentTemperature, note]);
 }
 
 function resetTable() {
