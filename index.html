@@ -32,38 +32,37 @@ layout: default
 <section class="p-strip">
     <div class="row">
         <div class="col-2">
-            <div>Timer</div>
-            <h2><div id="timer">00:00</div></h2>
+            <div id="timer" class="p-heading--1">00:00</div>
         </div>
         <div class="col-2">
             <div>Developement</div>
-            <h2><div id="developement">0%</div></h2>
-        </div>
-        <div class="col-2"></div>
-        <div class="col-2">
-            <div>Initial Weight</div>
-            <input type="text" id="initialWeight"/>
+            <div id="developement" class="p-heading--3">-%</div>
         </div>
         <div class="col-2">
-            <div>Final Weight</div>
-            <input type="text" id="finalWeight"/>
+            <div>First Crack</div>
+            <div id="timer" class="p-heading--3">--:--</div>
         </div>
         <div class="col-2">
-            <div>Weight Loss</div>
-            <h2><div id="weightLoss">0%</div></h2>
+            <div>Second Crack</div>
+            <div id="timer" class="p-heading--3">--:--</div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-6">
-            <input type="text" id="temperature" placeholder="Temperature or notes (press Enter)"/>
+        <div class="col-2">
+            <input type="text" id="setTemperature" placeholder="Set temperature"/>
+            <input type="text" id="currentTemperature" placeholder="Current temperature"/>
         </div>
-        <div class="col-6">
-            <button id="yellowing">Yellowing</button>
-            <button id="browning">Browning</button>
+        <div class="col-2">
             <button id="firstCrack">First crack</button>
             <button id="secondCrack">Second crack</button>
         </div>
+        <div class="col-5">
+            <input type="text" id="notes" placeholder="Add notes"/>
+        </div>
+        <div class="col-3">
+            <button id="submit" class="p-button--positive">+</button>
+        </div>  
     </div>
     <div class="row">
         <div class="col-12">
@@ -71,7 +70,8 @@ layout: default
                 <thead>
                     <tr>
                         <th>Time</th>
-                        <th>Temperature</th>
+                        <th>Set Temperature</th>
+                        <th>Current Temperature</th>
                         <th>Note</th>
                     </tr>
                 </thead>
@@ -97,15 +97,15 @@ function resetState() {
     document.getElementById("stopRoast").innerText= "End Roast";
     document.getElementById("stopRoast").disabled = true;
     document.getElementById("resetRoast").disabled = true;
-    document.getElementById("yellowing").disabled = true;
-    document.getElementById("browning").disabled = true;
+    document.getElementById("exportToCSV").disabled = true;
+
     document.getElementById("firstCrack").disabled = true;
     document.getElementById("secondCrack").disabled = true;
     document.getElementById("temperature").disabled = true;
-    document.getElementById("exportToCSV").disabled = true;
+
     document.getElementById("initialWeight").value = "";
     document.getElementById("finalWeight").value = "";
-    document.getElementById("weightLoss").innerHTML = "0%";
+    document.getElementById("weightLoss").innerHTML = "-%";
 }
 
 // I run this function to avoid broswer button caching
@@ -118,8 +118,6 @@ document.getElementById("startRoast").onclick = function() {
     document.getElementById("stopRoast").disabled = false;
     document.getElementById("resetRoast").disabled = true;
 
-    document.getElementById("yellowing").disabled = false;
-    document.getElementById("browning").disabled = false;
     document.getElementById("firstCrack").disabled = false;
     document.getElementById("secondCrack").disabled = false;
     document.getElementById("temperature").disabled = false;
@@ -144,12 +142,6 @@ document.getElementById("resetRoast").onclick = function() {
     if (reset) {
         resetState();
     }
-};
-document.getElementById("yellowing").onclick = function() {
-    statusButton("yellowing", "Yellowing") ;
-};
-document.getElementById("browning").onclick = function() {
-    statusButton("browning",'Browning');
 };
 document.getElementById("firstCrack").onclick = function() {
     firstCrackTime = sec;
@@ -210,7 +202,7 @@ function updateDevelopement(fc, currentTime) {
         developement = 100 - (fc / currentTime * 100);
         document.getElementById("developement").innerHTML = Math.round((developement + Number.EPSILON) * 100) / 100 + "%";
     } else {
-        document.getElementById("developement").innerHTML =  "0%";
+        document.getElementById("developement").innerHTML =  "-%";
     }
 }
 
