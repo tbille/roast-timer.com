@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title }}</title>
+
+    <meta
+      name="description"
+      content="Timer to log your home coffee roasting."
+    />
+    <meta name="author" content="Thomas Bille" />
+    <meta
+      name="copyright"
+      content="&copy; {% now 'Y' %} Toto corp"
+    />
+    <link rel="alternate" href="https://roast-timer.com" hreflang="en-GB" />
+
+    <meta property="og:title" content="{{ title }}" />
+    <meta property="og:site_name" content="{{ title }}" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:description"
+      content="Timer to log your home coffee roasting."
+    />
+    <meta 
+      property="og:image" 
+      content="{{ domain_with_protocol }}/static/assets/timer-logo.png" 
+    />
+    <meta
+      property="og:url"
+      content="domain_with_protocol{{ request.path }} "
+    />
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@totostache" />
+    <meta property="twitter:creator" content="@totostache" />
+    <meta
+      property="twitter:url"
+      content="{{ domain_with_protocol }}{{ request.path }}"
+    />
+    <meta
+      property="twitter:image"
+      content="{{ domain_with_protocol }}/assets/timer-logo.png"
+    />
+
+    <link
+      rel="canonical"
+      href="https://roast-timer.com{{ request.path }}"
+    />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="{{ domain_with_protocol }}/favicon/apple-icon-57x57.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="{{ domain_with_protocol }}/static/assets/favicon/apple-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="{{ domain_with_protocol }}/static/assets/favicon/apple-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="{{ domain_with_protocol }}/static/assets/favicon/apple-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="{{ domain_with_protocol }}/static/assets/favicon/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="{{ domain_with_protocol }}/static/assets/favicon/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="{{ domain_with_protocol }}/static/assets/favicon/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="{{ domain_with_protocol }}/static/assets/favicon/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{{ domain_with_protocol }}/static/assets/favicon/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="{{ domain_with_protocol }}/static/assets/favicon/android-icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{{ domain_with_protocol }}/static/assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="{{ domain_with_protocol }}/static/assets/favicon/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{{ domain_with_protocol }}/static/assets/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <link rel="manifest" crossorigin="use-credentials" href="/manifest.json" />
+    <link
+      rel="stylesheet"
+      href="https://assets.ubuntu.com/v1/vanilla-framework-version-2.21.0.min.css"
+    />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-168683396-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-168683396-1");
+    </script>
+
+    <style>
+      #firstCrack {
+        background-color: #69594c;
+        color: #ffffff;
+      }
+      #secondCrack {
+        background-color: #685d4f;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="navigation" class="p-navigation is-dark">
+      <div class="p-navigation__row">
+        <div class="p-navigation__banner">
+          <a href="#navigation" class="p-navigation__toggle--open" title="menu"
+            >Coffee Roasting timer</a
+          >
+          <a
+            href="#navigation-closed"
+            class="p-navigation__toggle--close"
+            title="close menu"
+            >Close menu</a
+          >
+        </div>
+        <nav class="p-navigation__nav">
+          <span class="u-off-screen">
+            <a href="#main-content">Jump to main content</a>
+          </span>
+          <ul class="p-navigation__items" role="menu">
+            <li class="p-navigation__link" role="menuitem">
+              <a class="p-navigation__link" href="/">Coffee Roasting timer</a>
+            </li>
+            <li class="p-navigation__link" role="menuitem">
+              <a class="p-navigation__link" href="/about">About</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section>
+        {% block content %}{% endblock %}
+    </section>
+
+    <footer class="p-strip--light">
+      <nav class="row">
+        <div>
+          <p>Made without coffee by toto!</p>
+          <ul class="p-inline-list--middot">
+            <li class="p-inline-list__item">
+              <a href="https://github.com/tbille/roast-timer.com/issues/new"
+                ><small>Report a bug on this site</small></a
+              >
+            </li>
+            <li class="p-inline-list__item">
+              <form
+                action="https://www.paypal.com/cgi-bin/webscr"
+                method="post"
+                target="_top"
+              >
+                <input type="hidden" name="cmd" value="_s-xclick" />
+                <input
+                  type="hidden"
+                  name="hosted_button_id"
+                  value="H6ASSKY6CTQTA"
+                />
+                <input
+                  type="image"
+                  src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif"
+                  border="0"
+                  name="submit"
+                  title="PayPal - The safer, easier way to pay online!"
+                  alt="Donate with PayPal button"
+                />
+                <img
+                  alt=""
+                  border="0"
+                  src="https://www.paypal.com/en_GB/i/scr/pixel.gif"
+                  width="1"
+                  height="1"
+                />
+              </form>
+            </li>
+          </ul>
+          <span class="u-off-screen"
+            ><a href="#">Go to the top of the page</a></span
+          >
+        </div>
+      </nav>
+    </footer>
+  </body>
+</html>

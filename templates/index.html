@@ -1,0 +1,119 @@
+{% extends "_layouts/base.html" %}
+
+{% block content %}
+<section class="p-strip--light is-bordered">
+  <div class="row">
+    <div class="col-6">
+      <h1 style="margin-bottom: 2rem;">Coffee roast timer</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <button id="startRoast">Start roast</button>
+      <button id="stopRoast">Finish roast</button>
+      <button id="resetRoast">Reset</button>
+      <button id="exportToCSV">Export to CSV</button>
+    </div>
+    <div class="col-6">
+      <div class="p-form--inline">
+        <div class="p-form__group">
+          <label for="intervalTimer" class="p-form__label">Interval beep</label>
+          <div class="p-form__control">
+            <input type="text" id="intervalTimer" class="p-form__control" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="p-strip">
+  <div class="row">
+    <div class="col-2">
+      <div id="timer" class="p-heading--1">00:00</div>
+    </div>
+    <div class="col-2">
+      <div>Developement</div>
+      <div id="developement" class="p-heading--3">--%</div>
+    </div>
+    <div class="col-2">
+      <div>First Crack</div>
+      <div id="firstCrackTime" class="p-heading--3">
+        --:--
+      </div>
+    </div>
+    <div class="col-2">
+      <div>Second Crack</div>
+      <div id="secondCrackTime" class="p-heading--3">
+        --:--
+      </div>
+    </div>
+  </div>
+  <form id="addRowForm">
+    <div class="row">
+      <div class="col-2">
+        <input type="text" id="setTemperature" placeholder="Set temperature" />
+        <input
+          type="text"
+          id="currentTemperature"
+          placeholder="Current temperature"
+        />
+      </div>
+      <div class="col-2">
+        <div
+          id="firstCrack"
+          class="p-button is-disabled has-icon"
+          style="width: 100%; margin-right: 0; text-align: left;"
+        >
+          <i class="p-icon--plus is-light"></i><span>First crack</span>
+        </div>
+        <div
+          id="secondCrack"
+          class="p-button is-disabled has-icon"
+          style="width: 100%; text-align: left;"
+        >
+          <i class="p-icon--plus is-light"></i><span>Second crack</span>
+        </div>
+      </div>
+      <div class="col-8" style="display: flex; justify-content: space-between;">
+        <input
+          type="text"
+          id="notes"
+          placeholder="Add notes"
+          style="height: 5.75rem; margin-right: 2rem;"
+        />
+        <button
+          type="submit"
+          class="p-button--positive"
+          style="
+            font-size: 2rem;
+            height: 5.75rem;
+            font-family: monospace;
+            width: 5.75rem;
+          "
+        >
+          +
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="row">
+    <div class="col-12">
+      <table id="roastingLogs">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Set Temperature</th>
+            <th>Current Temperature</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody id="roastingRows"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript" src="/static/js/timer.js" defer></script>
+{% endblock %}
