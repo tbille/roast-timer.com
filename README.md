@@ -1,6 +1,6 @@
 # ![roast-timer.com](https://roast-timer.com/assets/timer-logo.png "roast-timer.com") Coffee roast timer
 
-This timer is made for home coffee roaster that want to log their roasts. I use this site when roasting on y [Gene Café CBR-101](https://www.genecafe.eu/gene-cafe-cbr-101.php).
+This timer is made for home coffee roaster that want to log their roasts. I use this site when roasting on my [Gene Café CBR-101](https://www.genecafe.eu/gene-cafe-cbr-101.php).
 
 This is the repository for the site [roast-timer.com](https://roast-timer.com).
 
